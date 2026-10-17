@@ -17,6 +17,7 @@ import { createElement as h } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
 import { degToRad } from "three/src/math/MathUtils.js";
+import { CharacterStage } from "@/components/character-stage";
 import { ArrowRight, Send, ShieldCheck } from "lucide-react";
 
 // ============================================================================
@@ -519,19 +520,7 @@ export default function EtherealBeamsHero({
 }: EtherealBeamsHeroProps = {}) {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-black">
-      {/* Beams Background */}
-      <div className="absolute inset-0 z-0">
-        <Beams
-          beamWidth={beamWidth}
-          beamHeight={beamHeight}
-          beamNumber={15}
-          lightColor={lightColor}
-          speed={speed}
-          noiseIntensity={noiseIntensity}
-          scale={0.15}
-          rotation={rotation}
-        />
-      </div>
+      <CharacterStage />
 
       {/* Glassmorphic Navbar */}
       <nav className="relative z-20 w-full">
@@ -586,7 +575,7 @@ export default function EtherealBeamsHero({
       </nav>
 
       {/* Hero Content */}
-      <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center">
+      <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center pointer-events-none [&_button]:pointer-events-auto">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             {/* Badge */}
@@ -650,7 +639,7 @@ export default function EtherealBeamsHero({
       </div>
 
       {/* Gradient Overlay for better text readability */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
+      
     </div>
   );
 }
