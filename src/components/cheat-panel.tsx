@@ -4,12 +4,17 @@ import { Crosshair, Settings, Minus, X } from "lucide-react";
 const LEFT = ["Enable Hook", "Aimbot Visible", "Silent Aim", "Drag Aimbot", "Ignore Knock", "No Recoil", "Sniper Scope", "AimFov"];
 const RIGHT = ["Esp Line", "Esp CornerBox", "Esp Skeleton", "Esp Info", "Esp Rgb", "Esp Tracker", "Esp Rank", "ESP Weapon", "Invalid Timer", "Esp Fix"];
 
-// Real slab geometry: the face sits at Z=0, four side walls rotate 90deg back to a
-// rear plate at -DEPTH, so the panel has a solid edge that catches light when tilted.
-const DEPTH = 30;
+// The panel is built as a solid block: the printed face sits on top of a stack of
+// thin slabs that run back in Z, so tilting reveals a lit edge instead of a flat card.
+const DEPTH_LAYERS = 24;
+const DEPTH_STEP = 1.6;
 
-const wallSide = "linear-gradient(to bottom, #2e2e2e 0%, #1a1a1a 40%, #090909 100%)";
-const wallHoriz = "linear-gradient(to right, #262626 0%, #141414 45%, #070707 100%)";
+function slabColor(i: number) {
+  const t = i / (DEPTH_LAYERS - 1);
+  const g = Math.round(52 - t * 42); // #343434 at the face, #0a0a0a at the back
+  const h = g.toString(16).padStart(2, "0");
+  return `#${h}${h}${h}`;
+}
 
 function Box({ on }: { on: boolean }) {
   return (
@@ -99,56 +104,21 @@ export function CheatPanel() {
           fontFamily: "Segoe UI, Arial, sans-serif",
         }}
       >
-        {/* Rear plate */}
-        <div
-          aria-hidden
-          className="absolute inset-0 rounded-[6px] bg-[#060606]"
-          style={{ transform: `translateZ(-${DEPTH}px)`, boxShadow: "0 0 0 1px rgba(0,0,0,0.95)" }}
-        />
+        {/* Body of the block: stacked slabs, all strictly behind the printed face */}
+        {Array.from({ length: DEPTH_LAYERS }).map((_, i) => (
+          <div
+            key={i}
+            aria-hidden
+            className="absolute inset-0 rounded-[6px]"
+            style={{
+              transform: `translateZ(${-DEPTH_STEP * (i + 1)}px)`,
+              background: slabColor(i),
+              boxShadow: i === DEPTH_LAYERS - 1 ? "0 0 0 1px rgba(0,0,0,0.9)" : undefined,
+            }}
+          />
+        ))}
 
-        {/* Side walls: hinged on each edge and swept back to the rear plate */}
-        <div
-          aria-hidden
-          className="absolute inset-y-[3px] left-0 rounded-[2px]"
-          style={{
-            width: DEPTH,
-            transformOrigin: "left center",
-            transform: "rotateY(-90deg)",
-            background: wallSide,
-          }}
-        />
-        <div
-          aria-hidden
-          className="absolute inset-y-[3px] right-0 rounded-[2px]"
-          style={{
-            width: DEPTH,
-            transformOrigin: "right center",
-            transform: "rotateY(90deg)",
-            background: wallSide,
-          }}
-        />
-        <div
-          aria-hidden
-          className="absolute inset-x-[3px] top-0 rounded-[2px]"
-          style={{
-            height: DEPTH,
-            transformOrigin: "center top",
-            transform: "rotateX(90deg)",
-            background: wallHoriz,
-          }}
-        />
-        <div
-          aria-hidden
-          className="absolute inset-x-[3px] bottom-0 rounded-[2px]"
-          style={{
-            height: DEPTH,
-            transformOrigin: "center bottom",
-            transform: "rotateX(-90deg)",
-            background: wallHoriz,
-          }}
-        />
-
-        {/* Front face */}
+        {/* Printed face */}
         <div
           className="relative rounded-[6px] bg-[#141414]"
           style={{
