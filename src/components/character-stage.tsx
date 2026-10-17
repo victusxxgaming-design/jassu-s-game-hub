@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import bg from "@/assets/ff-bg.jpg";
 import char1 from "@/assets/char-1.png";
-import char2 from "@/assets/char-2.png";
 import char3 from "@/assets/char-3.png";
 
 type Char = {
@@ -12,9 +11,8 @@ type Char = {
 };
 
 const CHARACTERS: Char[] = [
-  { src: char1, alt: "Rifle hero", reaction: "Booyah! 🔥", className: "left-[-6%] md:left-[1%] h-[62vh] md:h-[82vh] z-[3]" },
-  { src: char2, alt: "Pistol heroine", reaction: "Let's go! 😎", className: "left-[16%] h-[66vh] z-[2] hidden lg:block" },
-  { src: char3, alt: "Shotgun hero", reaction: "Bring it! 💥", className: "right-[-6%] md:right-[1%] h-[62vh] md:h-[82vh] z-[3]" },
+  { src: char1, alt: "Rifle operator", reaction: "", className: "left-0 -translate-x-1/2 h-[46vh] md:h-[58vh] hidden sm:block" },
+  { src: char3, alt: "Shotgun operator", reaction: "", className: "right-0 translate-x-1/2 h-[46vh] md:h-[58vh] hidden sm:block" },
 ];
 
 function Character({ c, mouse }: { c: Char; mouse: { x: number; y: number } }) {
@@ -30,16 +28,17 @@ function Character({ c, mouse }: { c: Char; mouse: { x: number; y: number } }) {
     const cy = r.top + r.height * 0.25; // head height
     const dx = Math.max(-1, Math.min(1, (mouse.x - cx) / (window.innerWidth / 2)));
     const dy = Math.max(-1, Math.min(1, (mouse.y - cy) / (window.innerHeight / 2)));
-    setTilt({ ry: dx * 22, rx: -dy * 10, tx: dx * 14 });
+    setTilt({ ry: dx * 8, rx: -dy * 4, tx: dx * 4 });
   }, [mouse]);
 
-  const scale = hover ? 1.14 : 1;
-  const z = hover ? 120 : 0;
+  const scale = 1;
+  const z = hover ? 40 : 0;
 
   return (
+    <div className={`absolute bottom-0 ${c.className}`}>
     <div
       ref={ref}
-      className={`character-stage-item absolute bottom-0 pointer-events-auto ${c.className}`}
+      className="character-stage-item h-full pointer-events-auto"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
@@ -47,13 +46,13 @@ function Character({ c, mouse }: { c: Char; mouse: { x: number; y: number } }) {
         zIndex: hover ? 30 : undefined,
       }}
     >
-      {hover && <div className="character-reaction">{c.reaction}</div>}
       <img
         src={c.src}
         alt={c.alt}
         draggable={false}
-        className={`h-full w-auto select-none ${hover ? "character-hover" : "character-idle"}`}
+        className={`h-full w-auto select-none character-img ${hover ? "is-active" : ""}`}
       />
+    </div>
     </div>
   );
 }
