@@ -577,8 +577,8 @@ export default function EtherealBeamsHero({
 
       {/* Hero Content */}
       <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center pointer-events-none [&_button]:pointer-events-auto">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-6 py-10 lg:grid-cols-2 lg:px-8">
-          <div className="text-center lg:text-left">
+        <div className="mx-auto grid w-full max-w-5xl items-center gap-10 px-6 py-10 md:grid-cols-2 lg:px-8">
+          <div className="text-center md:text-left">
             <div className="mb-5 inline-flex items-center rounded-full bg-white/5 backdrop-blur-xl border border-white/10 px-3 py-1 text-xs text-white/90">
               <ShieldCheck className="mr-1.5 h-3.5 w-3.5 text-white" />
               Trusted Community
