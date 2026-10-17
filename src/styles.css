@@ -143,27 +143,6 @@
   }
 }
 
-/* Hero character stage */
-.character-stage-item {
-  transform-style: preserve-3d;
-  transform-origin: 50% 100%;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.character-stage-scrim {
-  background:
-    radial-gradient(ellipse at center, oklch(0.08 0 0 / 0.78) 0%, oklch(0.08 0 0 / 0.55) 55%, oklch(0.08 0 0 / 0.35) 100%),
-    linear-gradient(to top, oklch(0.08 0 0 / 0.95), transparent 45%, oklch(0.08 0 0 / 0.6));
-}
-.character-img {
-  filter: grayscale(0.35) brightness(0.8) drop-shadow(0 24px 40px oklch(0 0 0 / 0.7));
-  -webkit-mask-image: linear-gradient(to top, transparent 0%, black 22%);
-  mask-image: linear-gradient(to top, transparent 0%, black 22%);
-  transition: filter 0.6s ease, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.character-img.is-active {
-  filter: grayscale(0) brightness(1) drop-shadow(0 24px 40px oklch(0 0 0 / 0.7));
-  transform: translateY(-8px);
-}
 
 /* Landing cheat panel slider */
 .panel-range { -webkit-appearance: none; appearance: none; height: 10px; border-radius: 3px; cursor: pointer;

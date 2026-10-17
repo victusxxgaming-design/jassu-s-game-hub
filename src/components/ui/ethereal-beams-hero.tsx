@@ -17,7 +17,7 @@ import { createElement as h } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
 import { degToRad } from "three/src/math/MathUtils.js";
-import { CharacterStage } from "@/components/character-stage";
+import { BeamsBackground } from "@/components/ui/beams-background";
 import { ArrowRight, MessageCircle, ShieldCheck } from "lucide-react";
 import { CheatPanel } from "@/components/cheat-panel";
 
@@ -521,7 +521,7 @@ export default function EtherealBeamsHero({
 }: EtherealBeamsHeroProps = {}) {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-black">
-      <CharacterStage />
+      <BeamsBackground className="absolute inset-0 z-0 min-h-0" intensity="strong" />
 
       {/* Glassmorphic Navbar */}
       <nav className="relative z-20 w-full">
