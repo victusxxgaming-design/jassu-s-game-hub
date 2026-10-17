@@ -166,7 +166,7 @@
 }
 .character-reaction {
   position: absolute;
-  top: 2%;
+  top: 10%;
   left: 50%;
   white-space: nowrap;
   padding: 0.4rem 0.9rem;

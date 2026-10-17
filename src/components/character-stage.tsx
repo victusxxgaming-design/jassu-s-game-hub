@@ -85,8 +85,8 @@ export function CharacterStage() {
         alt=""
         width={1920}
         height={1088}
-        className="absolute inset-[-3%] h-[106%] w-[106%] object-cover transition-transform duration-300 ease-out"
-        style={{ transform: `translate(${px}px, ${py}px)` }}
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-out"
+        style={{ transform: `scale(1.08) translate(${px}px, ${py}px)` }}
       />
       <div className="character-stage-scrim absolute inset-0" />
       <div className="absolute inset-0 z-[5] pointer-events-none" style={{ perspective: "1200px" }}>
