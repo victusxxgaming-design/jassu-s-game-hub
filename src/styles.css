@@ -164,3 +164,9 @@
   filter: grayscale(0) brightness(1) drop-shadow(0 24px 40px oklch(0 0 0 / 0.7));
   transform: translateY(-8px);
 }
+
+/* Landing cheat panel slider */
+.panel-range { -webkit-appearance: none; appearance: none; height: 10px; border-radius: 3px; cursor: pointer;
+  background: linear-gradient(to right, oklch(0.6 0.24 27) var(--p), oklch(0.32 0 0) var(--p)); }
+.panel-range::-webkit-slider-thumb { -webkit-appearance: none; width: 0; height: 0; }
+.panel-range::-moz-range-thumb { width: 0; height: 0; border: 0; }
