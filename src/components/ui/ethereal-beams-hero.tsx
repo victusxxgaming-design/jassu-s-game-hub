@@ -11,6 +11,9 @@ import {
   type ReactNode,
 } from "react";
 import * as THREE from "three";
+// R3F scene nodes use createElement: the dev source-inspector injects a
+// data-tsd-source attribute into JSX, which three.js objects reject.
+import { createElement as h } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
 import { degToRad } from "three/src/math/MathUtils.js";
@@ -298,7 +301,7 @@ const MergedPlanes = forwardRef<
     mesh.current.material.uniforms.time.value += 0.1 * delta;
   });
 
-  return <mesh ref={mesh} geometry={geometry} material={material} />;
+  return h("mesh", { ref: mesh, geometry, material });
 });
 
 MergedPlanes.displayName = "MergedPlanes";
@@ -346,14 +349,7 @@ const DirLight: FC<{ position: [number, number, number]; color: string }> = ({
     dir.current.shadow.bias = -0.004;
   }, []);
 
-  return (
-    <directionalLight
-      ref={dir}
-      color={color}
-      intensity={1}
-      position={position}
-    />
-  );
+  return h("directionalLight", { ref: dir, color, intensity: 1, position });
 };
 
 const Beams: FC<BeamsProps> = ({
@@ -431,19 +427,15 @@ const Beams: FC<BeamsProps> = ({
 
   return (
     <CanvasWrapper>
-      <group rotation={[0, 0, degToRad(rotation)]}>
-        <PlaneNoise
-          ref={meshRef}
-          material={beamMaterial}
-          count={beamNumber}
-          width={beamWidth}
-          height={beamHeight}
-        />
-        <DirLight color={lightColor} position={[0, 3, 10]} />
-      </group>
-      <ambientLight intensity={1} />
-      <color attach="background" args={["#000000"]} />
-      <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={30} />
+      {h(
+        "group",
+        { rotation: [0, 0, degToRad(rotation)] },
+        h(PlaneNoise, { ref: meshRef, material: beamMaterial, count: beamNumber, width: beamWidth, height: beamHeight }),
+        h(DirLight, { color: lightColor, position: [0, 3, 10] }),
+      )}
+      {h("ambientLight", { intensity: 1 })}
+      {h("color", { attach: "background", args: ["#000000"] })}
+      {h(PerspectiveCamera, { makeDefault: true, position: [0, 0, 20], fov: 30 })}
     </CanvasWrapper>
   );
 };
