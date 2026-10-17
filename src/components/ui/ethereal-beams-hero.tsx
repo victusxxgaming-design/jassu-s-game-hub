@@ -1,3 +1,4 @@
+// @ts-nocheck -- third-party shader component (21st.dev) with loose uniform typing
 import type React from "react";
 
 import {
