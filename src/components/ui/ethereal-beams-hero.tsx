@@ -18,7 +18,8 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { PerspectiveCamera } from "@react-three/drei";
 import { degToRad } from "three/src/math/MathUtils.js";
 import { CharacterStage } from "@/components/character-stage";
-import { ArrowRight, Send, ShieldCheck } from "lucide-react";
+import { ArrowRight, MessageCircle, ShieldCheck } from "lucide-react";
+import { CheatPanel } from "@/components/cheat-panel";
 
 // ============================================================================
 // BEAMS COMPONENT (3D Background)
@@ -562,8 +563,8 @@ export default function EtherealBeamsHero({
             {/* CTA Button */}
             <div className="flex items-center space-x-4">
               <Button variant="ghost" size="sm" className="hidden sm:flex">
-                <Send className="mr-2 h-4 w-4" />
-                Telegram
+                <MessageCircle className="mr-2 h-4 w-4" />
+                Discord
               </Button>
               <Button size="sm">
                 Shop Now
@@ -576,67 +577,53 @@ export default function EtherealBeamsHero({
 
       {/* Hero Content */}
       <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center pointer-events-none [&_button]:pointer-events-auto">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-4xl text-center">
-            {/* Badge */}
-            <div className="mb-8 inline-flex items-center rounded-full bg-white/5 backdrop-blur-xl border border-white/10 px-4 py-2 text-sm text-white/90">
-              <ShieldCheck className="mr-2 h-4 w-4 text-white" />
-              {"#1 Free Fire Addons Marketplace"}
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-6 py-10 lg:grid-cols-2 lg:px-8">
+          <div className="text-center lg:text-left">
+            <div className="mb-5 inline-flex items-center rounded-full bg-white/5 backdrop-blur-xl border border-white/10 px-3 py-1 text-xs text-white/90">
+              <ShieldCheck className="mr-1.5 h-3.5 w-3.5 text-white" />
+              Trusted Community
             </div>
 
-            {/* Main Heading */}
-            <h1 className="mb-6 text-4xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">
-              Level up your{" "}
+            <h1 className="mb-4 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
+              Free Fire{" "}
               <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
-                Free Fire
-              </span>{" "}
-              game
-              <br />
-              with Jassu Cheats
+                Game Panel
+              </span>
             </h1>
 
-            {/* Subtitle */}
-            <p className="mb-10 text-lg leading-8 text-white/80 sm:text-xl lg:text-2xl max-w-3xl mx-auto">
-              Premium addons, skins, and tools for Free Fire players. Instant
+            <p className="mb-7 text-sm leading-6 text-white/70 sm:text-base max-w-md mx-auto lg:mx-0">
+              Premium addons and tools for Free Fire players. Instant
               delivery, regular updates, and 24/7 support.
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-              <Button
-                size="lg"
-                className="shadow-2xl shadow-white/25 font-semibold"
-              >
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 mb-8">
+              <Button size="sm" className="font-semibold">
                 Browse Addons
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <ArrowRight className="ml-1.5 h-4 w-4" />
               </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="font-semibold bg-transparent"
-              >
+              <Button variant="outline" size="sm" className="font-semibold bg-transparent">
                 How It Works
               </Button>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-2">50K+</div>
-                <div className="text-white/60 text-sm">Players</div>
+            <div className="flex justify-center lg:justify-start gap-8">
+              <div>
+                <div className="text-xl font-bold text-white">12K+</div>
+                <div className="text-white/60 text-xs">Discord Members</div>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-2">200+</div>
-                <div className="text-white/60 text-sm">Addons</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-white mb-2">24/7</div>
-                <div className="text-white/60 text-sm">Support</div>
+              <div>
+                <div className="text-xl font-bold text-white">3K+</div>
+                <div className="text-white/60 text-xs">Trusted Clients</div>
               </div>
             </div>
           </div>
+
+          <div className="flex justify-center lg:justify-end">
+            <CheatPanel />
+          </div>
         </div>
       </div>
+
 
       {/* Gradient Overlay for better text readability */}
       
