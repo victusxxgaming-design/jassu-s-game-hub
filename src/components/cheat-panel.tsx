@@ -4,8 +4,16 @@ import { Crosshair, Settings, Minus, X } from "lucide-react";
 const LEFT = ["Enable Hook", "Aimbot Visible", "Silent Aim", "Drag Aimbot", "Ignore Knock", "No Recoil", "Sniper Scope", "AimFov"];
 const RIGHT = ["Esp Line", "Esp CornerBox", "Esp Skeleton", "Esp Info", "Esp Rgb", "Esp Tracker", "Esp Rank", "ESP Weapon", "Invalid Timer", "Esp Fix"];
 
-const DEPTH_LAYERS = 16;
-const DEPTH_STEP = 2;
+// Extrusion: many thin slabs stacked behind the face so the panel reads as a solid block.
+const DEPTH_LAYERS = 26;
+const DEPTH_STEP = 1.4;
+
+function slabColor(i: number) {
+  const t = i / (DEPTH_LAYERS - 1);
+  const g = Math.max(3, Math.round(21 - t * 18));
+  const h = g.toString(16).padStart(2, "0");
+  return `#${h}${h}${h}`;
+}
 
 function Box({ on }: { on: boolean }) {
   return (
@@ -69,18 +77,18 @@ export function CheatPanel() {
     const r = ref.current!.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width;
     const py = (e.clientY - r.top) / r.height;
-    setTilt({ x: (py - 0.5) * -7, y: (px - 0.5) * 10, gx: px * 100, gy: py * 100 });
+    setTilt({ x: (py - 0.5) * -12, y: (px - 0.5) * 16, gx: px * 100, gy: py * 100 });
   };
 
   const rest = () => setTilt({ x: 0, y: 0, gx: 50, gy: 35 });
 
   return (
-    <div className="pointer-events-auto relative" style={{ perspective: "1300px" }}>
+    <div className="pointer-events-auto relative" style={{ perspective: "1150px" }}>
       {/* Cast shadow that drifts opposite the tilt */}
       <div
         aria-hidden
-        className="absolute inset-x-4 -bottom-7 h-10 rounded-[50%] bg-black/70 blur-2xl"
-        style={{ transform: `translate(${tilt.y * -1.4}px, ${tilt.x * 1.2}px) translateZ(-60px)` }}
+        className="absolute inset-x-4 -bottom-8 h-10 rounded-[50%] bg-black/75 blur-2xl"
+        style={{ transform: `translate(${tilt.y * -1.8}px, ${tilt.x * 1.4}px) translateZ(-70px)` }}
       />
 
       <div
@@ -90,21 +98,21 @@ export function CheatPanel() {
         className="relative w-[330px] select-none transition-transform duration-200 ease-out"
         style={{
           transformStyle: "preserve-3d",
-          transform: `translateZ(18px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+          transform: `translateZ(24px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
           willChange: "transform",
           fontFamily: "Segoe UI, Arial, sans-serif",
         }}
       >
-        {/* Extruded body: stacked slabs behind the face give the panel real thickness */}
+        {/* Extruded body */}
         {Array.from({ length: DEPTH_LAYERS }).map((_, i) => (
           <div
             key={i}
             aria-hidden
             className="absolute inset-0 rounded-[6px]"
             style={{
-              transform: `translateZ(${-DEPTH_STEP * (i + 1)}px) scale(${1 - i * 0.0016})`,
-              background: i === DEPTH_LAYERS - 1 ? "#050505" : "#0d0d0d",
-              boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.035)",
+              transform: `translateZ(${-DEPTH_STEP * (i + 1)}px) scale(${1 - i * 0.0012})`,
+              background: slabColor(i),
+              boxShadow: i === DEPTH_LAYERS - 1 ? "0 0 0 1px rgba(0,0,0,0.9)" : undefined,
             }}
           />
         ))}
@@ -115,7 +123,7 @@ export function CheatPanel() {
           style={{
             transformStyle: "preserve-3d",
             boxShadow:
-              "inset 0 1px 0 rgba(255,255,255,0.09), inset 0 -1px 0 rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.07)",
+              "inset 0 1px 0 rgba(255,255,255,0.12), inset 0 -1px 0 rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.08)",
           }}
         >
           {/* Title bar */}
@@ -150,7 +158,7 @@ export function CheatPanel() {
           <div className="grid grid-cols-[1fr_1fr] gap-[6px] px-[5px]" style={{ transformStyle: "preserve-3d" }}>
             <div
               className="flex flex-col gap-[5px] rounded-[3px] bg-[#1c1c1c] px-2 py-2"
-              style={{ transform: "translateZ(14px)", boxShadow: "0 10px 18px -8px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.05)" }}
+              style={{ transform: "translateZ(14px)", boxShadow: "0 12px 20px -8px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.06)" }}
             >
               {LEFT.map((l) => (
                 <Check key={l} label={l} on={!!state[l]} toggle={() => toggle(l)} keyBtn={l === "Aimbot Visible"} />
@@ -173,7 +181,7 @@ export function CheatPanel() {
             </div>
             <div
               className="flex flex-col gap-[5px] rounded-[3px] bg-[#1c1c1c] px-2 py-2"
-              style={{ transform: "translateZ(14px)", boxShadow: "0 10px 18px -8px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.05)" }}
+              style={{ transform: "translateZ(14px)", boxShadow: "0 12px 20px -8px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.06)" }}
             >
               {RIGHT.map((l) => (
                 <Check key={l} label={l} on={!!state[l]} toggle={() => toggle(l)} keyBtn={l === "Esp Fix"} />
@@ -181,7 +189,7 @@ export function CheatPanel() {
               <div className="flex h-[18px] items-center gap-2 text-[10.5px] font-bold text-[#e8e8e8]">
                 <button type="button" onClick={() => toggle("Nick Name")}><Box on={!!state["Nick Name"]} /></button>
                 Nick Name
-                <span className="flex-1 truncate rounded-[3px] border border-[#3a3a3a] bg-[#222] px-1.5 py-[1px] text-[8.5px]">JASSU CHEATS</span>
+                <span className="flex-1 overflow-hidden whitespace-nowrap rounded-[3px] border border-[#3a3a3a] bg-[#222] px-1 py-[1px] text-[8px]">JASSU CHEATS</span>
               </div>
             </div>
           </div>
@@ -200,7 +208,7 @@ export function CheatPanel() {
             className="pointer-events-none absolute inset-0 rounded-[6px]"
             style={{
               transform: "translateZ(20px)",
-              background: `radial-gradient(220px 150px at ${tilt.gx}% ${tilt.gy}%, rgba(255,255,255,0.13), transparent 68%), linear-gradient(to top, rgba(255,26,26,0.09), transparent 34%)`,
+              background: `radial-gradient(220px 150px at ${tilt.gx}% ${tilt.gy}%, rgba(255,255,255,0.16), transparent 68%), linear-gradient(to top, rgba(255,26,26,0.1), transparent 34%)`,
             }}
           />
         </div>
